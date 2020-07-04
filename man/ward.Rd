@@ -9,7 +9,7 @@ ward(v, comm = F, k = NA, cex = 0.7, os = 0)
 \arguments{
 \item{v}{a numeric matrix, data frame.}
 
-\item{comm}{if TRUE, data should belong to Community Ecology.}
+\item{comm}{if TRUE, data should be Community Ecology data(especially species data such as example 1).}
 
 \item{k}{number of clusters.}
 
@@ -21,13 +21,21 @@ ward(v, comm = F, k = NA, cex = 0.7, os = 0)
 Compute Ward cluster tree
 }
 \examples{
+# suggested method to read data
+v <- readxl::read_xlsx('data.xlsx')
+v1 <- as.matrix(v[, -1]); rownames(v1) <- v$colname
+flux::ward(v1)
 
+# example 1
+data(doubs, package = 'ade4'); spe <- doubs$fish[-8, ]
+ward(spe, comm = T, k = 4)
+
+# example 2
 set.seed(9); df <- iris[sample(150,45), ]; df <- df[order(df$Species), 1:4]
 ward(v = df, comm = T, k = 3)
 
+# example 3
 data(wine, package = 'rattle'); set.seed(6); df <- wine[sample(178,45), ]; df <- df[, -1]
 ward(v = df, k = 3)
 
-data(doubs, package = 'ade4'); spe <- doubs$fish[-8, ]
-ward(spe, comm = T, k = 4)
 }

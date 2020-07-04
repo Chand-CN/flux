@@ -3,25 +3,28 @@
 #' Compute Spearman and Pearson correlation matrix.
 #'
 #' @param v a data.frame (or list) should be taken.
+#' @param pcc if TRUE, ignore result of normality test and use Pearson correlation coefficient
 #'
 #' @examples
+#' # example 1
 #' corr(mtcars[, 1:5])
 #'
-#' corr(mtcars[, 5:6], normal = T)
+#' # example 2
+#' corr(mtcars[, 1:5], pcc = T)
 #'
 #' @export
-corr <- function(v, normal = F) {
+corr <- function(v, pcc = F) {
   options(warn = -1)
-  # Common parameter: panel.hist————-----————————————————————-—————————————————————————-—#
+  # 1 Common parameter: panel.hist——————————————————————————————————————————————————————
   panel.hist <- function(x, no.col=FALSE, ...){
     usr <- par("usr"); on.exit(par(usr))
-    par(usr = c(usr[1:2], 0, 1.5) ); his <- hist(x, plot=FALSE)
+    par(usr = c(usr[1:2], 0, 1.5) ); his <- hist(x, plot = FALSE)
     breaks <- his$breaks; nB <- length(breaks)
     y <- his$counts; y <- y/max(y)
     if(no.col) rect(breaks[-nB], 0, breaks[-1], y, col="gray", ...)
     else rect(breaks[-nB], 0, breaks[-1], y, col="cyan", ...)
   }
-  # Pearson Correlation Matrix-————-----———————-—————————————-—————————————————————————-—#
+  # 2.2 Pearson Correlation Matrix——————————————————————————————————————————————————————
   percor <- function(v) {
     panel.cor <- function(x, y, method = 'pearson', digits=3, cex.cor=1.2, no.col=FALSE){
       par(usr = c(0, 1, 0, 1))
@@ -48,7 +51,7 @@ corr <- function(v, normal = F) {
     pairs(v, lower.panel = panel.smooth, upper.panel = panel.cor,
           diag.panel = panel.hist, main = 'Pearson Correlation Matrix')
   }
-  # Spearman Correlation Matrix-————-----——————-—————————————-—————————————————————————-—#
+  # 2.3 Spearman Correlation Matrix—————————————————————————————————————————————————————
   specor <- function(v) {
     panel.cor <- function(x, y, method = 'spearman', digits=3, cex.cor=1.2, no.col=FALSE){
       par(usr = c(0, 1, 0, 1))
@@ -75,21 +78,22 @@ corr <- function(v, normal = F) {
     pairs(v, lower.panel = panel.smooth, upper.panel = panel.cor,
           diag.panel = panel.hist, main = 'Spearman Correlation Matrix', method='spearman')
   }
-  # process-------————-----————————————————————-———————————————————————--------------——-—#
+  # 3 Output final result———————————————————————————————————————————————————————————————
   nor <- sapply(v, shapiro.test); options(digits=3)
-  if (normal == T) {
+  if (pcc == T) {
     percor(v)
-    ans <- list('TIPS' = 'Compute Pearson Correlation Matrix', 'Matrix' = cor(v, method = 'pearson'))
+    ans <- list('TIPS' = 'Compute Pearson Correlation Matrix',
+                'Matrix' = cor(v, method = 'pearson'))
     return(ans)
   }else {
     if (all(data.frame(nor)[2,] > 0.05) == T) {
       percor(v)
-      ans <- list('TIPS' = 'Pass the normality test. Pearson Correlation Matrix is suggested',
+      ans <- list('TIPS' = 'Pass the normality test.  Pearson correlation coefficient is suggested',
                   'Matrix' = cor(v, method = 'pearson'))
       return(ans)
     }else {
       specor(v)
-      ans <- list('TIPS' = 'Failed to pass the normality test. Spearman Correlation Matrix is suggested',
+      ans <- list('TIPS' = 'Failed to pass the normality test.  Spearmans correlation coefficient is suggested',
                   'Matrix' = cor(v, method = 'spearman'))
       return(ans)
     }

@@ -4,17 +4,21 @@
 \alias{corr}
 \title{Compute correlation matrix}
 \usage{
-corr(v, normal = F)
+corr(v, pcc = F)
 }
 \arguments{
 \item{v}{a data.frame (or list) should be taken.}
+
+\item{pcc}{if TRUE, ignore result of normality test and use Pearson correlation coefficient}
 }
 \description{
 Compute Spearman and Pearson correlation matrix.
 }
 \examples{
+# example 1
 corr(mtcars[, 1:5])
 
-corr(mtcars[, 5:6], normal = T)
+# example 2
+corr(mtcars[, 1:5], pcc = T)
 
 }

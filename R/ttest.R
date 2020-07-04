@@ -10,16 +10,18 @@ usethis::use_package('car')
 #' @param premise a logical indicating whether you want know results of normality test and two sample var.test are displayed.
 #'
 #' @examples
+#' # example 1
+#' set.seed(3); v1 <- rnorm(5000, 0, 1); v2 <- rnorm(5000, 0.02, 1)
+#' ttest(v1 = v1, v2 = v2, alternative = 'less')
+#'
+#' # example 2
 #' v1 <- c(2.41, 2.90, 2.75, 2.23, 3.67, 4.49, 5.16, 5.45, 2.06, 1.64, 1.06, 0.77)
 #' v2 <- c(2.80, 3.04, 1.88, 3.43, 3.81, 4.00, 4.44, 5.41, 1.24, 1.83, 1.45, 0.92)
 #' ttest(v1 = v1, v2 = v2, alternative = 'greater', paired = T, premise = T)
 #'
-#' set.seed(3); v1 <- rnorm(5000, 0, 1); v2 <- rnorm(5000, 0.02, 1)
-#' ttest(v1 = v1, v2 = v2, alternative = 'less')
-#'
 #' @export
 ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
-  # 'nort' for 'normality test','tsv' for 'two sample var.test'——————————————————————————
+  # 1 'nort' for 'normality test','tsv' for 'two sample var.test'————————————————————————
   nort <- function() {
     ifelse(is.na(mu),rnort <- sapply(list(v1,v2), shapiro.test),rnort <- shapiro.test(v1))
     assign('rnort',rnort,envir = parent.env(environment()))}
@@ -32,10 +34,10 @@ ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
       rtsv <- car::leveneTest(df$v, df$F)
     }
     assign('rtsv',rtsv,envir = parent.env(environment()))}
-  # 'ost' for 'one sample t-test','tst' for 'two sample t-test'——————————————————————————
+  # 2 'ost' for 'one sample t-test','tst' for 'two sample t-test'————————————————————————
   ost <- function() {t.test(v1,mu = mu,alternative = alternative)}
   tst <- function() {t.test(v1,v2,alternative = alternative,paired = paired,var.equal = T)}
-  # 'pwrt' for 'power of t-test'—————————————————————————————————————————————————————————
+  # 3 'pwrt' for 'power of t-test'———————————————————————————————————————————————————————
   pwrt <- function() {
     l1<-length(v1);l2<-length(v2)
     d <- ifelse(is.na(mu),(mean(v1)-mean(v2))/sqrt(((l1-1)*var(v1)+(l2-1)*var(v2))/(l1+l2-2)),
@@ -47,7 +49,7 @@ ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
                   rpwrt <- pwr.t2n.test(n1=length(v1),n2=length(v2),d=d,alternative=alternative)))
     assign('rpwrt',rpwrt,envir = parent.env(environment()))
   }
-  # process——————————————————————————————————————————————————————————————————————————————
+  # 4 Output final result————————————————————————————————————————————————————————————————
   if (is.na(mu)) {
     nort();tsv()
     ifelse(rtsv[[3]]<0.05,ans <- 'Failed to pass the homogeneity test',
@@ -56,7 +58,7 @@ ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
   }else{
     print(list(ost(),pwrt()))
   }
-  # premise——————————————————————————————————————————————————————————————————————————————
+  # 5 Premise(optional)——————————————————————————————————————————————————————————————————
   if (premise == T)
     if (is.na(mu)) {
       nort();tsv();list(rnort,rtsv)

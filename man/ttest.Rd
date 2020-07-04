@@ -19,11 +19,13 @@ ttest(v1, v2 = NA, mu = NA, alternative, paired = F, premise = F)
 Performs one and two sample t-tests on vectors of data.  Displays results of normality test and two sample var.test.
 }
 \examples{
+# example 1
+set.seed(3); v1 <- rnorm(5000, 0, 1); v2 <- rnorm(5000, 0.02, 1)
+ttest(v1 = v1, v2 = v2, alternative = 'less')
+
+# example 2
 v1 <- c(2.41, 2.90, 2.75, 2.23, 3.67, 4.49, 5.16, 5.45, 2.06, 1.64, 1.06, 0.77)
 v2 <- c(2.80, 3.04, 1.88, 3.43, 3.81, 4.00, 4.44, 5.41, 1.24, 1.83, 1.45, 0.92)
 ttest(v1 = v1, v2 = v2, alternative = 'greater', paired = T, premise = T)
-
-set.seed(3); v1 <- rnorm(5000, 0, 1); v2 <- rnorm(5000, 0.02, 1)
-ttest(v1 = v1, v2 = v2, alternative = 'less')
 
 }
