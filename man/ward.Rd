@@ -28,14 +28,17 @@ flux::ward(v1)
 
 # example 1
 data(doubs, package = 'ade4'); spe <- doubs$fish[-8, ]
-ward(spe, comm = T, k = 4)
+ward(spe, comm = T); ward(spe, comm = T, k = 4)
 
-# example 2
+# example 2(1:50; 51:100; 101:150)
 set.seed(9); df <- iris[sample(150,45), ]; df <- df[order(df$Species), 1:4]
-ward(v = df, comm = T, k = 3)
+ward(v = df, comm = T); ward(v = df, comm = T, k = 3)
 
-# example 3
+# example 3(1:59; 60:130; 131:178)
 data(wine, package = 'rattle'); set.seed(6); df <- wine[sample(178,45), ]; df <- df[, -1]
-ward(v = df, k = 3)
+ward(v = df); ward(v = df, k = 3)
+# meaning of standardization based on example 3
+df$Alcohol <- 100*df$Alcohol
+ward(v = df); ward(v = df, k = 3)
 
 }
