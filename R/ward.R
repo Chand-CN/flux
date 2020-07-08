@@ -19,20 +19,22 @@ usethis::use_package('rattle')
 #' # example 1
 #' data(doubs, package = 'ade4'); spe <- doubs$fish[-8, ]
 #' ward(spe, comm = T); ward(spe, comm = T, k = 4)
+#' ward(spe, comm = T, k = 4, check = T)
 #'
 #' # example 2(1:50; 51:100; 101:150)
 #' set.seed(9); df <- iris[sample(150,45), ]; df <- df[order(df$Species), 1:4]
-#' ward(v = df, comm = T); ward(v = df, comm = T, k = 3)
+#' ward(df, comm = T); ward(df, comm = T, k = 3)
+#' ward(df, comm = T, k = 3, check = T)
 #'
 #' # example 3(1:59; 60:130; 131:178)
 #' data(wine, package = 'rattle'); set.seed(6); df <- wine[sample(178,45), ]; df <- df[, -1]
-#' ward(v = df); ward(v = df, k = 3)
+#' ward(df); ward(df, k = 3)
+#' ward(df, k = 3, check = T)
 #' # meaning of standardization based on example 3
-#' df$Alcohol <- 100*df$Alcohol
-#' ward(v = df); ward(v = df, k = 3)
+#' df$Alcohol <- 50*df$Alcohol + 100; ward(df, k = 3)
 #'
 #' @export
-ward <- function(v, comm = F, k = NA, cex = 0.7, os = 0) {
+ward <- function(v, comm = F, k = NA, check = F, cex = 0.7, os = 0) {
   # 1 Compute Euclidean distance and Ward————————————————————————————————————————————————
   ward.hc <- function() {
     if (comm == T) {
@@ -63,18 +65,30 @@ ward <- function(v, comm = F, k = NA, cex = 0.7, os = 0) {
     mypal=c('#768FDf', '#CD5C5C', '#20B2AA', '#FF9169',
             '#84B7DF', '#E08A9A', '#C8E7C1','#F8C98D',
             '#A9A9A9', '#696969')
-    clus=cutree(hc, k)
+    clus = cutree(hc, k)
     plot(ape::as.phylo(hc), tip.color = mypal[clus], cex = cex, label.offset = os,
          main = 'Ward Hierachical Clustering Analysis')
   }
-  # 4 Output final result and adjust figure margins——————————————————————————————————————
+  # 4 Check the clustering result————————————————————————————————————————————————————————
+  ward.ck <- function() {
+    clus = cutree(hc, k)
+    sil <- cluster::silhouette(cutree(hc, k = k), v.ch)
+    rownames(sil) <- row.names(v)
+    plot(sil, main = "", cex.names = 0.7, col = 2:(k + 1), nmax = 100)
+    title("Silhouette plot")
+  }
+  # 5 Output final result and adjust figure margins——————————————————————————————————————
   if (is.na(k)) {
     par(mar = c(5, 4, 4, 2) + 0.1)
     ward.hc(); ward.si()
-    return("Please choose a k value based on Average silhouette width")
+    return("Please choose a k-value based on Average silhouette width")
   }else {
-    par(mar = c(1, 2, 2, 1))
-    ward.hc(); ward.tre()
-    par(mar = c(5, 4, 4, 2) + 0.1)
+    if (check == F) {
+      par(mar = c(1, 2, 2, 1))
+      ward.hc(); ward.tre()
+      par(mar = c(5, 4, 4, 2) + 0.1)
+    }else {
+      ward.hc(); ward.ck()
+    }
   }
 }
