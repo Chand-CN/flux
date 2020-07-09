@@ -4,14 +4,18 @@
 \alias{ward}
 \title{Compute Ward cluster tree}
 \usage{
-ward(v, comm = F, k = NA, check = F, cex = 0.7, os = 0)
+ward(v, comm = F, robust = F, k = NA, check = F, cex = 0.7, os = 0)
 }
 \arguments{
 \item{v}{a numeric matrix, data frame.}
 
 \item{comm}{if TRUE, data should be Community Ecology data(especially species data such as example 1).}
 
+\item{robust}{if TRUE, check the robustness of clustering result. Underlines mean p(AU) >= 0.95.}
+
 \item{k}{number of clusters.}
+
+\item{check}{if TRUE, check the reasonableness of clustering result(if there are misclustered obs).}
 
 \item{cex}{a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.}
 
@@ -24,20 +28,23 @@ Compute Ward cluster tree
 # suggested method to read data
 v <- readxl::read_xlsx('data.xlsx')
 v1 <- as.matrix(v[, -1]); rownames(v1) <- v$colname
-flux::ward(v1)
+ward(v1)
 
 # example 1
 data(doubs, package = 'ade4'); spe <- doubs$fish[-8, ]
+ward(spe, comm = T, robust = T)
 ward(spe, comm = T); ward(spe, comm = T, k = 4)
 ward(spe, comm = T, k = 4, check = T)
 
 # example 2(1:50; 51:100; 101:150)
 set.seed(9); df <- iris[sample(150,45), ]; df <- df[order(df$Species), 1:4]
+ward(df, comm = T, robust = T)
 ward(df, comm = T); ward(df, comm = T, k = 3)
 ward(df, comm = T, k = 3, check = T)
 
 # example 3(1:59; 60:130; 131:178)
 data(wine, package = 'rattle'); set.seed(6); df <- wine[sample(178,45), ]; df <- df[, -1]
+ward(df, robust = T)
 ward(df); ward(df, k = 3)
 ward(df, k = 3, check = T)
 # meaning of standardization based on example 3

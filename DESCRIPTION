@@ -1,6 +1,6 @@
 Package: flux
 Title: Compute correlation matrix and Ward cluster tree
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: 
     person(given = "Chand",
            family = "Zhang",
@@ -19,4 +19,5 @@ Imports:
     vegan,
     cluster,
     ape,
-    rattle
+    rattle,
+    pvclust
