@@ -15,7 +15,7 @@
 #' @export
 corr <- function(v, pcc = F) {
   options(warn = -1)
-  # 1 Common parameter: panel.hist——————————————————————————————————————————————————————
+  # 1 Common parameter: panel.hist —————————————————————————————————————————————————————
   panel.hist <- function(x, no.col=FALSE, ...){
     usr <- par("usr"); on.exit(par(usr))
     par(usr = c(usr[1:2], 0, 1.5) ); his <- hist(x, plot = FALSE)
@@ -24,7 +24,7 @@ corr <- function(v, pcc = F) {
     if(no.col) rect(breaks[-nB], 0, breaks[-1], y, col="gray", ...)
     else rect(breaks[-nB], 0, breaks[-1], y, col="cyan", ...)
   }
-  # 2.2 Pearson Correlation Matrix——————————————————————————————————————————————————————
+  # 2.2 Pearson Correlation Matrix —————————————————————————————————————————————————————
   percor <- function(v) {
     panel.cor <- function(x, y, method = 'pearson', digits=3, cex.cor=1.2, no.col=FALSE){
       par(usr = c(0, 1, 0, 1))
@@ -51,7 +51,7 @@ corr <- function(v, pcc = F) {
     pairs(v, lower.panel = panel.smooth, upper.panel = panel.cor,
           diag.panel = panel.hist, main = 'Pearson Correlation Matrix')
   }
-  # 2.3 Spearman Correlation Matrix—————————————————————————————————————————————————————
+  # 2.3 Spearman Correlation Matrix ————————————————————————————————————————————————————
   specor <- function(v) {
     panel.cor <- function(x, y, method = 'spearman', digits=3, cex.cor=1.2, no.col=FALSE){
       par(usr = c(0, 1, 0, 1))

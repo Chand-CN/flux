@@ -21,7 +21,7 @@ usethis::use_package('car')
 #'
 #' @export
 ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
-  # 1 'nort' for 'normality test','tsv' for 'two sample var.test'————————————————————————
+  # 1 'nort' for 'normality test','tsv' for 'two sample var.test' ———————————————————————
   nort <- function() {
     ifelse(is.na(mu),rnort <- sapply(list(v1,v2), shapiro.test),rnort <- shapiro.test(v1))
     assign('rnort',rnort,envir = parent.env(environment()))}
@@ -37,7 +37,7 @@ ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
   # 2 'ost' for 'one sample t-test','tst' for 'two sample t-test'————————————————————————
   ost <- function() {t.test(v1,mu = mu,alternative = alternative)}
   tst <- function() {t.test(v1,v2,alternative = alternative,paired = paired,var.equal = T)}
-  # 3 'pwrt' for 'power of t-test'———————————————————————————————————————————————————————
+  # 3 'pwrt' for 'power of t-test' ——————————————————————————————————————————————————————
   pwrt <- function() {
     l1<-length(v1);l2<-length(v2)
     d <- ifelse(is.na(mu),(mean(v1)-mean(v2))/sqrt(((l1-1)*var(v1)+(l2-1)*var(v2))/(l1+l2-2)),
@@ -49,7 +49,7 @@ ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
                   rpwrt <- pwr.t2n.test(n1=length(v1),n2=length(v2),d=d,alternative=alternative)))
     assign('rpwrt',rpwrt,envir = parent.env(environment()))
   }
-  # 4 Output final result————————————————————————————————————————————————————————————————
+  # 4 Output final result ———————————————————————————————————————————————————————————————
   if (is.na(mu)) {
     nort();tsv()
     ifelse(rtsv[[3]]<0.05,ans <- 'Failed to pass the homogeneity test',
@@ -58,7 +58,7 @@ ttest <- function(v1,v2 = NA,mu = NA,alternative,paired = F,premise = F) {
   }else{
     print(list(ost(),pwrt()))
   }
-  # 5 Premise(optional)——————————————————————————————————————————————————————————————————
+  # 5 Premise(optional) —————————————————————————————————————————————————————————————————
   if (premise == T)
     if (is.na(mu)) {
       nort();tsv();list(rnort,rtsv)

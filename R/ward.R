@@ -84,7 +84,7 @@ ward <- function(v, comm = F, k = NA, cex = 0.7, os = 0) {
     plot(sil, main = "", cex.names = 0.7, col = 2:(k + 1), nmax = 100)
     title("Silhouette plot")
   }
-  # 6 Output final result and adjust figure margins —————————————————————————————————————
+  # 6 Output final result ———————————————————————————————————————————————————————————————
   if (is.na(k)) {
     par(mar = c(5, 4, 4, 2) + 0.1)
     ward.hc(); ward.si()
