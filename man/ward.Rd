@@ -18,7 +18,7 @@ ward(v, comm = F, k = NA, cex = 0.7, os = 0)
 \item{os}{distance between text and graphics.}
 }
 \description{
-Compute Ward cluster tree
+Make sure that there is no newline after ward().
 }
 \examples{
 # suggested method to read data

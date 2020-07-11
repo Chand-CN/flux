@@ -5,6 +5,8 @@ usethis::use_package('ape')
 usethis::use_package('rattle')
 #' Compute Ward cluster tree
 #'
+#' Make sure that there is no newline after ward().
+#'
 #' @param v a numeric matrix, data frame.
 #' @param comm if TRUE, data should be Community Ecology data(especially species data such as example 1).
 #' @param k number of clusters.
