@@ -68,7 +68,8 @@ ward <- function(v, comm = F, k = NA, label_color = T, label_cex = 0.7, label_of
     if (label_color == F) {
       p <- factoextra::fviz_dend(hc, cex = label_cex, k = k, horiz = T, alpha = 0.1,
                                  color_labels_by_k = FALSE)
-      print(p + ggplot2::labs(title = "Hierarchical Cluster Tree") + theme(plot.title = element_text(hjust = 0.5)))
+      print(p + ggplot2::labs(title = "Hierarchical Cluster Tree") +
+              ggplot2::theme(plot.title = element_text(hjust = 0.5)))
     }else {
       mypal=c('#768FDf', '#CD5C5C', '#20B2AA', '#FF9169',
               '#84B7DF', '#E08A9A', '#C8E7C1','#F8C98D',
