@@ -37,6 +37,7 @@ usethis::use_package('rattle')
 #'
 #' @export
 ward <- function(v, comm = F, k = NA, label_color = T, label_cex = 0.7, label_offset = 0) {
+  library(ggplot2)
   # 1 Compute Euclidean distance and Ward ———————————————————————————————————————————————
   ward.hc <- function() {
     if (comm == T) {
