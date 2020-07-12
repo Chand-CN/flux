@@ -4,7 +4,7 @@
 \alias{ward}
 \title{Compute Ward cluster tree}
 \usage{
-ward(v, comm = F, k = NA, cex = 0.7, os = 0)
+ward(v, comm = F, k = NA, label_color = T, label_cex = 0.7, label_offset = 0)
 }
 \arguments{
 \item{v}{a numeric matrix, data frame.}
@@ -13,9 +13,11 @@ ward(v, comm = F, k = NA, cex = 0.7, os = 0)
 
 \item{k}{number of clusters.}
 
-\item{cex}{a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.}
+\item{label_color}{if TRUE, labels will be colored.}
 
-\item{os}{distance between text and graphics.}
+\item{label_cex}{a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.}
+
+\item{label_offset}{distance between text and graphics(used only when label_color = F).}
 }
 \description{
 Make sure that there is no newline after ward().
@@ -36,8 +38,8 @@ ward(df, comm = T); ward(df, comm = T, k = 3)
 
 # example 3(1:59; 60:130; 131:178)
 data(wine, package = 'rattle'); set.seed(6); df <- wine[sample(178,45), ]; df <- df[, -1]
-ward(df); ward(df, k = 3)
+ward(df); ward(df, k = 3, label_color = F)
 # meaning of standardization based on example 3
-df$Alcohol <- 50*df$Alcohol + 100; ward(df, k = 3)
+df$Alcohol <- 50*df$Alcohol + 100; ward(df, k = 3, label_color = F)
 
 }

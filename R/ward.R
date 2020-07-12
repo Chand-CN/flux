@@ -10,8 +10,9 @@ usethis::use_package('rattle')
 #' @param v a numeric matrix, data frame.
 #' @param comm if TRUE, data should be Community Ecology data(especially species data such as example 1).
 #' @param k number of clusters.
-#' @param cex a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.
-#' @param os distance between text and graphics.
+#' @param label_color if TRUE, labels will be colored.
+#' @param label_cex a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.
+#' @param label_offset distance between text and graphics(used only when label_color = F).
 #'
 #' @examples
 #' # suggested method to read data
@@ -29,12 +30,12 @@ usethis::use_package('rattle')
 #'
 #' # example 3(1:59; 60:130; 131:178)
 #' data(wine, package = 'rattle'); set.seed(6); df <- wine[sample(178,45), ]; df <- df[, -1]
-#' ward(df); ward(df, k = 3)
+#' ward(df); ward(df, k = 3, label_color = F)
 #' # meaning of standardization based on example 3
-#' df$Alcohol <- 50*df$Alcohol + 100; ward(df, k = 3)
+#' df$Alcohol <- 50*df$Alcohol + 100; ward(df, k = 3, label_color = F)
 #'
 #' @export
-ward <- function(v, comm = F, k = NA, cex = 0.7, os = 0) {
+ward <- function(v, comm = F, k = NA, label_color = T, label_cex = 0.7, label_offset = 0) {
   # 1 Compute Euclidean distance and Ward ———————————————————————————————————————————————
   ward.hc <- function() {
     if (comm == T) {
@@ -63,17 +64,23 @@ ward <- function(v, comm = F, k = NA, cex = 0.7, os = 0) {
   }
   # 3 Output a Ward cluster tree ————————————————————————————————————————————————————————
   ward.tre <- function() {
-    mypal=c('#768FDf', '#CD5C5C', '#20B2AA', '#FF9169',
-            '#84B7DF', '#E08A9A', '#C8E7C1','#F8C98D',
-            '#A9A9A9', '#696969')
-    clus = cutree(hc, k)
-    plot(ape::as.phylo(hc), tip.color = mypal[clus], cex = cex, label.offset = os,
-         main = 'Ward Hierachical Clustering Analysis')
+    if (label_color == F) {
+      p <- factoextra::fviz_dend(hc, cex = label_cex, k = k, horiz = T, alpha = 0.1,
+                                 color_labels_by_k = FALSE)
+      print(p + labs(title = "Hierarchical Cluster Tree") + theme(plot.title = element_text(hjust = 0.5)))
+    }else {
+      mypal=c('#768FDf', '#CD5C5C', '#20B2AA', '#FF9169',
+              '#84B7DF', '#E08A9A', '#C8E7C1','#F8C98D',
+              '#A9A9A9', '#696969')
+      clus = cutree(hc, k)
+      plot(ape::as.phylo(hc), tip.color = mypal[clus], cex = label_cex,
+           label.offset = label_offset, main = 'Hierarchical Cluster Tree')
+    }
   }
   # 4 Check the robustness of clustering result —————————————————————————————————————————
   ward.rb <- function() {
     v.pv <- pvclust::pvclust(t(v.norm), method.hclust = "ward.D2",
-                             method.dist = "euc", parallel=TRUE)
+                             method.dist = "euc", parallel = TRUE)
     plot(v.pv, main = "Cluster dendrogram with AU/BP values(%)",
          ylab = "Height", xlab = "Distance: euclidean")
     lines(v.pv)

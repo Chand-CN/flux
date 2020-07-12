@@ -8,6 +8,7 @@ usethis::use_package('ggrepel')
 #' @param v a numeric matrix, data frame.
 #' @param comm if TRUE, data should be Community Ecology data(especially species data such as example 1).
 #' @param k number of clusters.
+#' @param label_cex a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.
 #'
 #' @examples
 #' # example 1
@@ -23,7 +24,7 @@ usethis::use_package('ggrepel')
 #' kms(df); kms(df, k = 3)
 #'
 #' @export
-kms <- function(v, comm = F, k = NA, size = 3.5, alpha = 0.6, hjust = -0.3) {
+kms <- function(v, comm = F, k = NA, label_cex = 3.5, label_alpha = 0.6, label_hjust = -0.3) {
   options(warn = -1)
   # 1 Compute Euclidean distance and hclust —————————————————————————————————————————————
   kms.hc <- function() {
@@ -48,12 +49,12 @@ kms <- function(v, comm = F, k = NA, size = 3.5, alpha = 0.6, hjust = -0.3) {
     style <- select.list(c('points and labels - default', 'points and labels - check overlap', 'only labels'),
                         title = 'Which kind of plot do you want to choose?')
     if (style == 'points and labels - default') {
-      p + geom_text(aes(label=rownames(v)), size = size, alpha = alpha, hjust = hjust)
+      p + geom_text(aes(label=rownames(v)), size = label_cex, alpha = label_alpha, hjust = label_hjust)
     }else if (style == 'points and labels - check overlap') {
       p + ggrepel::geom_text_repel(aes(label=rownames(v)), point.padding = NA,
-                                   size = size, alpha = alpha, hjust = hjust)
+                                   size = label_cex, alpha = label_alpha, hjust = label_hjust)
     }else {
-      p + geom_label(label=rownames(v), size = size, alpha = alpha)
+      p + geom_label(label=rownames(v), size = label_cex, alpha = label_alpha)
     }
   }
   # 4 Output final result ———————————————————————————————————————————————————————————————

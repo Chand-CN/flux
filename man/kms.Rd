@@ -4,7 +4,14 @@
 \alias{kms}
 \title{Compute k-means clustering}
 \usage{
-kms(v, comm = F, k = NA, size = 3.5, alpha = 0.6, hjust = -0.3)
+kms(
+  v,
+  comm = F,
+  k = NA,
+  label_cex = 3.5,
+  label_alpha = 0.6,
+  label_hjust = -0.3
+)
 }
 \arguments{
 \item{v}{a numeric matrix, data frame.}
@@ -12,6 +19,8 @@ kms(v, comm = F, k = NA, size = 3.5, alpha = 0.6, hjust = -0.3)
 \item{comm}{if TRUE, data should be Community Ecology data(especially species data such as example 1).}
 
 \item{k}{number of clusters.}
+
+\item{label_cex}{a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.}
 }
 \description{
 Compute k-means clustering
