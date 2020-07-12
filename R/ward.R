@@ -2,6 +2,7 @@ usethis::use_package('vegan')
 usethis::use_package('pvclust')
 usethis::use_package('cluster')
 usethis::use_package('ape')
+usethis::use_package('factoextra')
 usethis::use_package('rattle')
 #' Compute Ward cluster tree
 #'
