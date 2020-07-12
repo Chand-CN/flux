@@ -1,6 +1,6 @@
 Package: flux
 Title: Compute correlation matrix and Ward cluster tree
-Version: 1.0.6
+Version: 1.0.7
 Authors@R: 
     person(given = "Chand",
            family = "Zhang",

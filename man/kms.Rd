@@ -4,7 +4,7 @@
 \alias{kms}
 \title{Compute k-means clustering}
 \usage{
-kms(v, comm = F, k = NA, check_overlap = F)
+kms(v, comm = F, k = NA, size = 3.5, alpha = 0.6, hjust = -0.3)
 }
 \arguments{
 \item{v}{a numeric matrix, data frame.}
@@ -12,8 +12,6 @@ kms(v, comm = F, k = NA, check_overlap = F)
 \item{comm}{if TRUE, data should be Community Ecology data(especially species data such as example 1).}
 
 \item{k}{number of clusters.}
-
-\item{check_overlap}{if TRUE, labels won't be overlap.}
 }
 \description{
 Compute k-means clustering
@@ -29,6 +27,6 @@ kms(df, comm = T); kms(df, comm = T, k = 3)
 
 # example 3(1:59; 60:130; 131:178)
 data(wine, package = 'rattle'); set.seed(6); df <- wine[sample(178,70), ]; df <- df[, -1]
-kms(df, comm = T); kms(df, comm = T, k = 3, check_overlap = T)
+kms(df); kms(df, k = 3)
 
 }
