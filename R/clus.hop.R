@@ -27,20 +27,18 @@ clus.hop <- function(df, rept = 30) {
       stok <- factoextra::get_clust_tendency(df.norm, n = nrow(df)-1 , seed = i, graph = F)
       hop <- append(hop, stok$hopkins_stat)
     }
-    out <- round(summary(hop), 3)
-    assign('out', out, envir = parent.env(environment()))
+    assign('hop', hop, envir = parent.env(environment()))
   }
   # E CORE CODE: Calculate Hopkins statistic ————————————————————————————————————————————
 
 
   # 3 Output final result ———————————————————————————————————————————————————————————————
   hopkins()
-  cat('There are Hopkins statistic for', rept, 'times:', '\n', '\n')
-  print(out)
+  cat('There are Hopkins statistic for', rept, 'times.', '\n', '\n')
+  cat('MEAN ± SD: ', round(mean(hop), 3), '±', round(sd(hop), 3), '\n')
+  cat('MEAN ± SE: ', round(mean(hop), 3), '±', round(sd(hop)/sqrt(length(hop)), 3), '\n')
   # 3 Output final result ———————————————————————————————————————————————————————————————
 }
-
-
 
 
 
