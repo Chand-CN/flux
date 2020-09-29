@@ -9,6 +9,8 @@ usethis::use_package('car')
 #' @param paired a logical indicating whether you want a paired t-test.
 #' @param premise a logical indicating whether you want know results of normality test and two sample var.test are displayed.
 #'
+#' @author Chand Zhang
+#'
 #' @examples
 #' # example 1
 #' set.seed(3); v1 <- rnorm(5000, 0, 1); v2 <- rnorm(5000, 0.02, 1)

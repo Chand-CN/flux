@@ -22,3 +22,6 @@ corr(mtcars[, 1:5])
 corr(mtcars[, 1:5], pcc = T)
 
 }
+\author{
+Chand Zhang
+}

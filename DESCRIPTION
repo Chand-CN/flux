@@ -24,4 +24,7 @@ Imports:
     factoextra,
     ggplot2,
     ggfortify,
-    ggrepel
+    ggrepel,
+    data.table,
+    mclust,
+    ggdendro

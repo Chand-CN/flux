@@ -5,6 +5,8 @@
 #' @param v a data.frame (or list) should be taken.
 #' @param pcc if TRUE, ignore result of normality test and use Pearson correlation coefficient
 #'
+#' @author Chand Zhang
+#'
 #' @examples
 #' # example 1
 #' corr(mtcars[, 1:5])
